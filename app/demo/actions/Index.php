@@ -7,7 +7,7 @@
  * Create Date: 2018/5/29
  * Description:
  **************************************************/
-class Index
+class Action_Index extends Yaf_Action_Abstract
 {
 
 }
