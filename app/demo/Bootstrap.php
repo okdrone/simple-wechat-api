@@ -20,4 +20,18 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initTest(Yaf_Dispatcher $dispatcher){
         var_dump(__METHOD__);
     }
+
+    public function _initRoute(Yaf_Dispatcher $dispatcher){
+        {
+            $route = new Yaf_Route_Rewrite(
+                '/demo/:xaction',
+                array(
+                    "module"    =>  "Index",
+                    "controller"=>  "Index",
+                    "action"    =>  ":xaction",
+                )
+            );
+            $dispatcher->getInstance()->getRouter()->addRoute("my_route", $route);
+        }
+    }
 }
