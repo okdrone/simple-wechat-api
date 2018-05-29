@@ -16,7 +16,12 @@ class APP_Core
             return false;
         }
 
-        new Yaf_Application(APPLICATION_PATH . "/conf/app/demo_app/app.ini");
+        define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
+
+        echo 'root_path:';
+        var_dump(ROOT_PATH);
+
+        new Yaf_Application(ROOT_PATH . "/conf/app/demo_app/app.ini");
 
         self::$isInit = true;
 
