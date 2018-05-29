@@ -7,6 +7,8 @@
  * Description:
  **************************************************/
 
+define("APPLICATION_PATH",  dirname(__FILE__));
+
 $app = APP_Core::init();
 
 $app->bootstrap()

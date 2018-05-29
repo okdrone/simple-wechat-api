@@ -16,6 +16,8 @@ class APP_Core
             return false;
         }
 
+        $app  = new Yaf_Application(APPLICATION_PATH . "/conf/app/demo_app/app.ini");
+
         self::$isInit = true;
 
         return Yaf_Application::app();
