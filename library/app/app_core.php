@@ -21,7 +21,10 @@ class APP_Core
         echo 'root_path:';
         var_dump(ROOT_PATH);
 
-        new Yaf_Application(ROOT_PATH . "/conf/app/demo_app/app.ini");
+        $objYCI = new Yaf_Config_Ini(ROOT_PATH . '/conf/app/demo_app/app.ini');
+        $yaf_conf = $objYCI->toArray();
+        $yaf_conf['application']['directory'] = ROOT_PATH . '/app/demo_app';
+        new Yaf_Application($yaf_conf);
 
         self::$isInit = true;
 
