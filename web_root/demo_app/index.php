@@ -7,7 +7,7 @@
  * Description:
  **************************************************/
 
-$app = XL_Init::init();
+$app = APP_Core::init();
 
 $app->bootstrap()
     ->run();
