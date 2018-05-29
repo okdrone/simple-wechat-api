@@ -1,0 +1,18 @@
+<?php
+
+/**************************************************
+ * Copyright (c).
+ * Filename: Bootstrap.php
+ * Author: Wanbo Ge <gewanbo@gmail.com>
+ * Create Date: 2018/5/29
+ * Description:
+ **************************************************/
+class Bootstrap extends Yaf_Bootstrap_Abstract
+{
+    public function _initConfig(Yaf_Dispatcher $dispatcher) {
+        var_dump(__METHOD__);
+    }
+    public function _initPlugin(Yaf_Dispatcher $dispatcher) {
+        var_dump(__METHOD__);
+    }
+}
