@@ -18,12 +18,9 @@ class APP_Core
 
         define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
 
-        echo 'root_path:';
-        var_dump(ROOT_PATH);
-
         $objYCI = new Yaf_Config_Ini(ROOT_PATH . '/conf/app/demo/app.ini');
         $yaf_conf = $objYCI->toArray();
-        $yaf_conf['application']['directory'] = ROOT_PATH . '/app/demo';
+        $yaf_conf['application']['directory'] = ROOT_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'demo';
         new Yaf_Application($yaf_conf);
 
         self::$isInit = true;
