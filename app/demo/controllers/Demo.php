@@ -14,7 +14,7 @@ class Controller_Demo extends Yaf_Controller_Abstract
         Yaf_Dispatcher::getInstance()->autoRender(FALSE);
     }
 
-    public function greeting(){
+    public function greetingAction(){
         echo 'Hello world!';
     }
 }
