@@ -12,5 +12,6 @@ class Action_Index extends Yaf_Action_Abstract
 
     public function execute(){
 
+        echo 'Hello world!';
     }
 }
