@@ -15,4 +15,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initPlugin(Yaf_Dispatcher $dispatcher) {
         var_dump(__METHOD__);
     }
+
+    public function _initTest(Yaf_Dispatcher $dispatcher){
+        var_dump(__METHOD__);
+    }
 }
