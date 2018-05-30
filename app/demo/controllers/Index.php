@@ -23,5 +23,7 @@ class Controller_Index extends Yaf_Controller_Abstract
         $logger = new \Wanbo\Logger\AppLogger();
 
         $logger->info('This is a info log.');
+
+        echo 'OK';
     }
 }
