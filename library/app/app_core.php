@@ -16,7 +16,10 @@ class APP_Core
             return false;
         }
 
+        
+
         define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
+        define('APP_PATH', ROOT_PATH . '/app');
         define('CONF_PATH', ROOT_PATH . '/conf');
 
         self::initYaf();
@@ -28,11 +31,25 @@ class APP_Core
 
     static public function initYaf() {
 
-        $objYCI = new Yaf_Config_Ini(CONF_PATH . '/app/demo/app.ini');
+        $objYCI = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . self::appName() . 
+            DIRECTORY_SEPARATOR . 'app.ini');
         $yaf_conf = $objYCI->toArray();
-        $yaf_conf['application']['directory'] = ROOT_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'demo';
+        $yaf_conf['application']['directory'] = ROOT_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . self::appName();
         new Yaf_Application($yaf_conf);
     
+
+    }
+
+    static public function appName() {
+
+        $app_name = 'demo';
+        $uri_arr = explode('/', $_SERVER['SCRIPT_NAME']);
+
+        if (isset($uri_arr[1]) && !empty($uri_arr)) {
+            $app_name = $uri_arr[1];
+        }
+
+        return $app_name;
 
     }
 }
