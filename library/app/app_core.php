@@ -22,6 +22,7 @@ class APP_Core
         define('APP_PATH', ROOT_PATH . '/app');
         define('LIB_PATH', ROOT_PATH . '/library');
         define('CONF_PATH', ROOT_PATH . '/conf');
+        define('LOG_PATH', ROOT_PATH . '/logs');
 
         require_once LIB_PATH . '/vendor/autoload.php';
 
