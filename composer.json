@@ -9,6 +9,11 @@
             "email": "gewanbo@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Wanbo\\Logger\\": "library/logger"
+        }
+    },
     "require": {
         "psr/log": "^1.0"
     },

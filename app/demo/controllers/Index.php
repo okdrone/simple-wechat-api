@@ -18,4 +18,10 @@ class Controller_Index extends Yaf_Controller_Abstract
         echo "Greeting:";
         echo 'Hello world!';
     }
+
+    public function logAction(){
+        $logger = new \Wanbo\Logger\AppLogger();
+
+        $logger->info('This is a info log.');
+    }
 }

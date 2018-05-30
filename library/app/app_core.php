@@ -20,7 +20,10 @@ class APP_Core
 
         define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
         define('APP_PATH', ROOT_PATH . '/app');
+        define('LIB_PATH', ROOT_PATH . '/library');
         define('CONF_PATH', ROOT_PATH . '/conf');
+
+        require_once LIB_PATH . '/vendor/autoload.php';
 
         self::initYaf();
 
