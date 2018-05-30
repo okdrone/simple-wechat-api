@@ -24,7 +24,6 @@ class APP_Core
         define('CONF_PATH', ROOT_PATH . '/conf');
         define('LOG_PATH', ROOT_PATH . '/logs');
 
-        require_once LIB_PATH . '/vendor/autoload.php';
 
         self::initYaf();
 
