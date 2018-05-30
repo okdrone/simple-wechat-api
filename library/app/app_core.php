@@ -18,13 +18,20 @@ class APP_Core
 
         define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
 
-        $objYCI = new Yaf_Config_Ini(ROOT_PATH . '/conf/app/demo/app.ini');
-        $yaf_conf = $objYCI->toArray();
-        $yaf_conf['application']['directory'] = ROOT_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'demo';
-        new Yaf_Application($yaf_conf);
+        self::initYaf();
 
         self::$isInit = true;
 
         return Yaf_Application::app();
+    }
+
+    static public function initYaf() {
+
+        $objYCI = new Yaf_Config_Ini(ROOT_PATH . '/conf/app/demo/app.ini');
+        $yaf_conf = $objYCI->toArray();
+        $yaf_conf['application']['directory'] = ROOT_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'demo';
+        new Yaf_Application($yaf_conf);
+    
+
     }
 }
