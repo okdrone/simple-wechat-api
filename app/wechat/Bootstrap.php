@@ -8,6 +8,8 @@
  * Description: All the methods named with prefix "_ini"
  * will be called according to their declare order.
  **************************************************/
+namespace Wanbo\APP\Wechat;
+
 class Bootstrap extends Yaf_Bootstrap_Abstract
 {
     public function _initConfig(Yaf_Dispatcher $dispatcher) {
@@ -18,29 +20,28 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         //var_dump(__METHOD__);
     }
 
-    public function _initRoute(Yaf_Dispatcher $dispatcher){
-        {
-            $route = new Yaf_Route_Rewrite(
-                '/' . App_Core::appName() . '/:xaction',
-                array(
-                    "module"    =>  "Index",
-                    "controller"=>  "Index",
-                    "action"    =>  ":xaction",
-                )
-            );
-            $dispatcher->getInstance()->getRouter()->addRoute("my_route", $route);
-        }
+    public function _initRoute(Yaf_Dispatcher $dispatcher)
+    {
 
-        {
-            $route = new Yaf_Route_Rewrite(
-                '/' . App_Core::appName() . '/:xcontroller/:xaction',
-                array(
-                    "module"    =>  "Index",
-                    "controller"=>  ":xcontroller",
-                    "action"    =>  ":xaction",
-                )
-            );
-            $dispatcher->getInstance()->getRouter()->addRoute("my_route2", $route);
-        }
+        $route = new Yaf_Route_Rewrite(
+            sprintf("/%s/:xaction", APP_Core::appName()),
+            array(
+                "module" => "Index",
+                "controller" => "Index",
+                "action" => ":xaction",
+            )
+        );
+        $dispatcher->getInstance()->getRouter()->addRoute("my_route", $route);
+
+        $route = new Yaf_Route_Rewrite(
+            sprintf("/%s/:xcontroller/:xaction", APP_Core::appName()),
+            array(
+                "module" => "Index",
+                "controller" => ":xcontroller",
+                "action" => ":xaction",
+            )
+        );
+        $dispatcher->getInstance()->getRouter()->addRoute("my_route2", $route);
+
     }
 }
