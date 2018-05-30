@@ -1,0 +1,18 @@
+{
+    "name": "okdrone/simple-wechat-api",
+    "description": "Simple Wechat API",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wanbo Ge",
+            "email": "gewanbo@gmail.com"
+        }
+    ],
+    "require": {
+        "psr/log": "^1.0"
+    },
+    "config": {
+        "vendor-dir": "library/vendor"
+    }
+}
