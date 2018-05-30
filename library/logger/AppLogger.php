@@ -26,7 +26,7 @@ class AppLogger implements LoggerInterface
      */
     public function emergency($message, array $context = array())
     {
-        // TODO: Implement emergency() method.
+        $this->log(LogLevel::EMERGENCY, $message, $context);
     }
 
     /**
@@ -42,7 +42,7 @@ class AppLogger implements LoggerInterface
      */
     public function alert($message, array $context = array())
     {
-        // TODO: Implement alert() method.
+        $this->log(LogLevel::ALERT, $message, $context);
     }
 
     /**
@@ -57,7 +57,7 @@ class AppLogger implements LoggerInterface
      */
     public function critical($message, array $context = array())
     {
-        // TODO: Implement critical() method.
+        $this->log(LogLevel::CRITICAL, $message, $context);
     }
 
     /**
@@ -71,7 +71,7 @@ class AppLogger implements LoggerInterface
      */
     public function error($message, array $context = array())
     {
-        // TODO: Implement error() method.
+        $this->log(LogLevel::ERROR, $message, $context);
     }
 
     /**
@@ -87,7 +87,7 @@ class AppLogger implements LoggerInterface
      */
     public function warning($message, array $context = array())
     {
-        // TODO: Implement warning() method.
+        $this->log(LogLevel::WARNING, $message, $context);
     }
 
     /**
@@ -100,7 +100,7 @@ class AppLogger implements LoggerInterface
      */
     public function notice($message, array $context = array())
     {
-        // TODO: Implement notice() method.
+        $this->log(LogLevel::NOTICE, $message, $context);
     }
 
     /**
@@ -128,7 +128,7 @@ class AppLogger implements LoggerInterface
      */
     public function debug($message, array $context = array())
     {
-        // TODO: Implement debug() method.
+        $this->log(LogLevel::DEBUG, $message, $context);
     }
 
     /**
@@ -142,7 +142,15 @@ class AppLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = array())
     {
-        // TODO: Implement log() method.
-        echo 'This is a log.';
+        $time = date('Y-m-d H:i:s', time());
+
+        if ($level != LogLevel::INFO && empty($context)){
+            $context = debug_backtrace();
+        }
+
+        $log_file = LOG_PATH . DIRECTORY_SEPARATOR . date('YmdH') . '.log';
+        $log_msg = sprintf("%s\t%s\t%s\n\r", $time, $_SERVER["REQUEST_URI"], json_encode($context));
+
+        error_log($log_msg, 3, $log_file, FILE_APPEND);
     }
 }
