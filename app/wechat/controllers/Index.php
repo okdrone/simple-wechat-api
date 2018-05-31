@@ -25,16 +25,17 @@ class Controller_Index extends Yaf_Controller_Abstract
     public function messageServiceAction(){
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $this->checkSignature();
+        } else {
 
+            $this->logger->info('This is a info log.');
+
+            $xml_str = file_get_contents("php://input");
+
+            $this->logger->info($xml_str);
         }
 
-        $this->logger->info('This is a info log.');
-
         echo 'This is message service';
-
-        $xml_str = file_get_contents("php://input");
-
-        $this->logger->info($xml_str);
     }
 
     private function checkSignature(){
