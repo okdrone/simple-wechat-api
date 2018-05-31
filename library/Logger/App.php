@@ -2,7 +2,7 @@
 
 /**************************************************
  * Copyright (c).
- * Filename: LoggerApp.php
+ * Filename: App.php
  * Author: Wanbo Ge <gewanbo@gmail.com>
  * Create Date: 2018/5/30
  * Description:
