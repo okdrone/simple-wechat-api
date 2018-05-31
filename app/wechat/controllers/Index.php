@@ -39,6 +39,10 @@ class Controller_Index extends Yaf_Controller_Abstract
     }
 
     private function checkSignature(){
+        $conf = App_Config::getConfig('wechat');
+
+        var_dump($conf);
+
         $signature = $this->getRequest()->get("signature", 0);
         $timestamp = $this->getRequest()->get("timestamp", 0);
         $nonce = $this->getRequest()->get("nonce", 0);

@@ -2,7 +2,7 @@
 
 /**************************************************
  * Copyright (c).
- * Filename: app_core.php
+ * Filename: Core.php
  * Author: Wanbo Ge <gewanbo@gmail.com>
  * Create Date: 2018/5/29
  * Description:
