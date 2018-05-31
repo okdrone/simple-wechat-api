@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Describes a logger instance.
+ * Describes a Logger instance.
  *
  * The message MUST be a string or object implementing __toString().
  *
