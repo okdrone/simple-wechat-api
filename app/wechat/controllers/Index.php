@@ -14,7 +14,7 @@ class Controller_Index extends Yaf_Controller_Abstract
     public function init() {
         Yaf_Dispatcher::getInstance()->autoRender(FALSE);
 
-        $this->logger = new AppLogger();
+        $this->logger = new Logger_App();
     }
 
     public function greetingAction(){

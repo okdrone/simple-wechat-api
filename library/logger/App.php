@@ -2,14 +2,14 @@
 
 /**************************************************
  * Copyright (c).
- * Filename: AppLogger.php
+ * Filename: App.php
  * Author: Wanbo Ge <gewanbo@gmail.com>
  * Create Date: 2018/5/30
  * Description:
  **************************************************/
 
 
-class AppLogger implements LoggerInterface
+class Logger_App implements LoggerInterface
 {
 
 
