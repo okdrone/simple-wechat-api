@@ -9,9 +9,12 @@
  **************************************************/
 class Controller_Index extends Yaf_Controller_Abstract
 {
+    protected $logger;
 
     public function init() {
         Yaf_Dispatcher::getInstance()->autoRender(FALSE);
+
+        $this->logger = new AppLogger();
     }
 
     public function greetingAction(){
@@ -19,11 +22,10 @@ class Controller_Index extends Yaf_Controller_Abstract
         echo 'Hello world!';
     }
 
-    public function logAction(){
-        $logger = new \Wanbo\Logger\AppLogger();
+    public function messageServiceAction(){
 
-        $logger->info('This is a info log.');
+        $this->logger->info('This is a info log.');
 
-        echo 'OK';
+        echo 'This is message service';
     }
 }
