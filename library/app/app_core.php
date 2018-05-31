@@ -38,7 +38,7 @@ class APP_Core
             DIRECTORY_SEPARATOR . 'app.ini');
         $yaf_conf = $objYCI->toArray();
         $yaf_conf['application']['directory'] = APP_PATH . DIRECTORY_SEPARATOR . self::appName();
-        $yaf_conf['application']['library']['directory'] = LIB_PATH;
+        $yaf_conf['application']['library']['directory'] = $yaf_conf['application']['directory'] . DIRECTORY_SEPARATOR . 'library';
         new Yaf_Application($yaf_conf);
     
 
