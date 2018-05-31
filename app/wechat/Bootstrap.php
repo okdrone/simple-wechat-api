@@ -8,8 +8,6 @@
  * Description: All the methods named with prefix "_ini"
  * will be called according to their declare order.
  **************************************************/
-namespace Wanbo\APP\Wechat;
-
 class Bootstrap extends Yaf_Bootstrap_Abstract
 {
     public function _initConfig(Yaf_Dispatcher $dispatcher) {
