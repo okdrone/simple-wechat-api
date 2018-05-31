@@ -45,13 +45,14 @@ class Controller_Index extends Yaf_Controller_Abstract
         $conf = App_Config::getConfig('wechat', $this->deploy_mode);
 
         var_dump($conf);
+        $token = $conf['wechat']['token'];
 
         $signature = $this->getRequest()->get("signature", 0);
         $timestamp = $this->getRequest()->get("timestamp", 0);
         $nonce = $this->getRequest()->get("nonce", 0);
         $echostr = $this->getRequest()->get('echostr');
 
-        $tmpArr = array($timestamp, $nonce);
+        $tmpArr = array($token, $timestamp, $nonce);
 
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
