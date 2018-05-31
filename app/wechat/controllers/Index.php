@@ -27,5 +27,9 @@ class Controller_Index extends Yaf_Controller_Abstract
         $this->logger->info('This is a info log.');
 
         echo 'This is message service';
+
+        $xml_str = file_get_contents("php://input");
+
+        $this->logger->info($xml_str);
     }
 }
