@@ -2,14 +2,14 @@
 
 /**************************************************
  * Copyright (c).
- * Filename: App.php
+ * Filename: LoggerApp.php
  * Author: Wanbo Ge <gewanbo@gmail.com>
  * Create Date: 2018/5/30
  * Description:
  **************************************************/
 
 
-class Logger_App implements LoggerInterface
+class Logger_App implements Logger_Interface
 {
 
 
@@ -23,7 +23,7 @@ class Logger_App implements LoggerInterface
      */
     public function emergency($message, array $context = array())
     {
-        $this->log(LogLevel::EMERGENCY, $message, $context);
+        $this->log(Logger_Level::EMERGENCY, $message, $context);
     }
 
     /**
@@ -39,7 +39,7 @@ class Logger_App implements LoggerInterface
      */
     public function alert($message, array $context = array())
     {
-        $this->log(LogLevel::ALERT, $message, $context);
+        $this->log(Logger_Level::ALERT, $message, $context);
     }
 
     /**
@@ -54,7 +54,7 @@ class Logger_App implements LoggerInterface
      */
     public function critical($message, array $context = array())
     {
-        $this->log(LogLevel::CRITICAL, $message, $context);
+        $this->log(Logger_Level::CRITICAL, $message, $context);
     }
 
     /**
@@ -68,7 +68,7 @@ class Logger_App implements LoggerInterface
      */
     public function error($message, array $context = array())
     {
-        $this->log(LogLevel::ERROR, $message, $context);
+        $this->log(Logger_Level::ERROR, $message, $context);
     }
 
     /**
@@ -84,7 +84,7 @@ class Logger_App implements LoggerInterface
      */
     public function warning($message, array $context = array())
     {
-        $this->log(LogLevel::WARNING, $message, $context);
+        $this->log(Logger_Level::WARNING, $message, $context);
     }
 
     /**
@@ -97,7 +97,7 @@ class Logger_App implements LoggerInterface
      */
     public function notice($message, array $context = array())
     {
-        $this->log(LogLevel::NOTICE, $message, $context);
+        $this->log(Logger_Level::NOTICE, $message, $context);
     }
 
     /**
@@ -112,7 +112,7 @@ class Logger_App implements LoggerInterface
      */
     public function info($message, array $context = array())
     {
-        $this->log(LogLevel::INFO, $message, $context);
+        $this->log(Logger_Level::INFO, $message, $context);
     }
 
     /**
@@ -125,7 +125,7 @@ class Logger_App implements LoggerInterface
      */
     public function debug($message, array $context = array())
     {
-        $this->log(LogLevel::DEBUG, $message, $context);
+        $this->log(Logger_Level::DEBUG, $message, $context);
     }
 
     /**
@@ -141,7 +141,7 @@ class Logger_App implements LoggerInterface
     {
         $time = date('Y-m-d H:i:s', time());
 
-        if ($level != LogLevel::INFO && empty($context)){
+        if ($level != Logger_Level::INFO && empty($context)){
             $context = debug_backtrace();
         }
 

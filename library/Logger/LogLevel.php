@@ -3,7 +3,7 @@
 /**
  * Describes log levels.
  */
-class LogLevel
+class Logger_Level
 {
     const EMERGENCY = 'emergency';
     const ALERT     = 'alert';
