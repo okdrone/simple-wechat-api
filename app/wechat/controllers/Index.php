@@ -11,6 +11,9 @@ class Controller_Index extends Yaf_Controller_Abstract
 {
     protected $logger;
 
+    // Only can be "production" or "debug".
+    protected $deploy_mode = 'debug';
+
     public function init() {
         Yaf_Dispatcher::getInstance()->autoRender(FALSE);
 
@@ -39,7 +42,7 @@ class Controller_Index extends Yaf_Controller_Abstract
     }
 
     private function checkSignature(){
-        $conf = App_Config::getConfig('wechat');
+        $conf = App_Config::getConfig('wechat', $this->deploy_mode);
 
         var_dump($conf);
 
