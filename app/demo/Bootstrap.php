@@ -12,7 +12,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 {
     public function _initConfig(Yaf_Dispatcher $dispatcher) {
         //var_dump(__METHOD__);
-        require_once LIB_PATH . '/vendor/autoload.php';
         $dispatcher->setDefaultController('Index');
     }
     public function _initPlugin(Yaf_Dispatcher $dispatcher) {

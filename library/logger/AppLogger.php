@@ -7,10 +7,7 @@
  * Create Date: 2018/5/30
  * Description:
  **************************************************/
-namespace Wanbo\Logger;
 
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 
 class AppLogger implements LoggerInterface
 {
