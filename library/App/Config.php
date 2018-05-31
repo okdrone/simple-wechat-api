@@ -22,10 +22,10 @@ class App_Config
 
             if(empty($section)) {
                 $confObj = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR
-                    . APP_Core::appName() . '.ini');
+                    . APP_Core::appName() . DIRECTORY_SEPARATOR . $name . '.ini');
             } else {
                 $confObj = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR
-                    . APP_Core::appName() . '.ini', $section);
+                    . APP_Core::appName() . DIRECTORY_SEPARATOR . $name . '.ini', $section);
             }
 
             $conf = $confObj->toArray();
