@@ -28,7 +28,9 @@ class Controller_Index extends Yaf_Controller_Abstract
     public function messageServiceAction(){
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-            $this->checkSignature();
+            if($this->checkSignature()) {
+                exit($this->getRequest()->get('echostr'));
+            }
         } else {
 
             $this->logger->info('This is a info log.');
@@ -37,20 +39,16 @@ class Controller_Index extends Yaf_Controller_Abstract
 
             $this->logger->info($xml_str);
         }
-
-        echo 'This is message service';
     }
 
     private function checkSignature(){
         $conf = App_Config::getConfig('wechat', $this->deploy_mode);
 
-        var_dump($conf);
         $token = $conf['wechat']['token'];
 
         $signature = $this->getRequest()->get("signature", 0);
         $timestamp = $this->getRequest()->get("timestamp", 0);
         $nonce = $this->getRequest()->get("nonce", 0);
-        $echostr = $this->getRequest()->get('echostr');
 
         $tmpArr = array($token, $timestamp, $nonce);
 
@@ -60,7 +58,6 @@ class Controller_Index extends Yaf_Controller_Abstract
 
         $this->logger->info('signature:' . $signature);
         $this->logger->info('sigStr:' . $tmpStr);
-        $this->logger->info($echostr);
 
         if( $tmpStr == $signature ){
             return true;
