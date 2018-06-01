@@ -34,7 +34,7 @@ class Controller_Index extends Yaf_Controller_Abstract
 
             $this->logger->info($xml_str);
 
-            $wechat = new Common\Wechat();
+            $wechat = new Wechat();
 
             $wechat->parseMessage($wechat);
 
