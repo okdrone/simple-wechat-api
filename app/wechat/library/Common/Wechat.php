@@ -8,7 +8,7 @@
  * Description:
  **************************************************/
 
-class Wechat
+class Common_Wechat
 {
     protected $logger;
 
