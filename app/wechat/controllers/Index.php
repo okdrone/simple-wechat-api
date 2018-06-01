@@ -32,7 +32,10 @@ class Controller_Index extends Yaf_Controller_Abstract
         var_dump($modules);
 
 
-        var_dump(Yaf_Loader::getLibraryPath());
+        $loader = Yaf_Loader::getInstance();
+        var_dump($loader);
+        var_dump($loader->getLibraryPath());
+        var_dump($loader->getLocalNamespace());
     }
 
     public function messageServiceAction(){
