@@ -7,7 +7,6 @@
  * Create Date: 2018/5/31
  * Description:
  **************************************************/
-namespace Common;
 
 class Wechat
 {
