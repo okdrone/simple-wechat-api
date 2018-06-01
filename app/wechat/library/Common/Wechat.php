@@ -11,8 +11,7 @@ namespace Common;
 
 class Wechat
 {
-
-    public function libraryTest(){
-        return 'ok';
+    public function parseMessage($msg_str){
+        var_dump($msg_str);
     }
 }

@@ -20,14 +20,6 @@ class Controller_Index extends Yaf_Controller_Abstract
         $this->logger = new Logger_App();
     }
 
-    public function greetingAction(){
-        echo "Greeting:";
-        echo 'Hello world!';
-
-        var_dump(method_exists($this, 'libraryTest'));
-
-    }
-
     public function messageServiceAction(){
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -39,6 +31,10 @@ class Controller_Index extends Yaf_Controller_Abstract
             $this->logger->info('This is a info log.');
 
             $xml_str = file_get_contents("php://input");
+
+            $wechat = new Common\Wechat();
+
+            $wechat->parseMessage($wechat);
 
             $this->logger->info($xml_str);
         }
