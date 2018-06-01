@@ -14,7 +14,7 @@ class Wechat
 
     public function __construct()
     {
-        $this->logger = new \Logger_App();
+        $this->logger = new Logger_App();
     }
 
     public function parseMessage($msg_str){

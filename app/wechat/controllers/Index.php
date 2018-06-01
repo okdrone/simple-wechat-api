@@ -34,9 +34,12 @@ class Controller_Index extends Yaf_Controller_Abstract
 
             $this->logger->info($xml_str);
 
-            $wechat = new \Wechat();
+            $this->logger->info("Class Wechat:" . class_exists('Wechat'));
+            $this->logger->info("Class \\Wechat:" . class_exists('\Wechat'));
 
-            $wechat->parseMessage($wechat);
+//            $wechat = new Wechat();
+//
+//            $wechat->parseMessage($wechat);
 
             $this->logger->info($xml_str);
         }
