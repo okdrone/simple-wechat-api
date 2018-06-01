@@ -26,10 +26,13 @@ class Controller_Index extends Yaf_Controller_Abstract
         $conf = $app->getConfig();
 
         var_dump($conf);
-        
+
         $modules = $app->getModules();
 
         var_dump($modules);
+
+
+        var_dump(Yaf_Loader::getLibraryPath());
     }
 
     public function messageServiceAction(){
