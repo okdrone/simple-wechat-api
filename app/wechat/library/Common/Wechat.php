@@ -11,7 +11,15 @@ namespace Common;
 
 class Wechat
 {
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->logger = new \Logger_App();
+    }
+
     public function parseMessage($msg_str){
-        var_dump($msg_str);
+
+        $this->logger->info('This is in Wechat class.');
     }
 }

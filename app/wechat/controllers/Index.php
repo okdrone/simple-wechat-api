@@ -28,9 +28,11 @@ class Controller_Index extends Yaf_Controller_Abstract
             }
         } else {
 
-            $this->logger->info('This is a info log.');
+            $this->logger->info('Received a message from Wechat:');
 
             $xml_str = file_get_contents("php://input");
+
+            $this->logger->info($xml_str);
 
             $wechat = new Common\Wechat();
 
