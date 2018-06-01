@@ -20,6 +20,14 @@ class Controller_Index extends Yaf_Controller_Abstract
         $this->logger = new Logger_App();
     }
 
+    public function testAction(){
+        $app = Yaf_Application::app();
+
+        $conf = $app->getConfig();
+
+        var_dump($conf);
+    }
+
     public function messageServiceAction(){
 
         try {
