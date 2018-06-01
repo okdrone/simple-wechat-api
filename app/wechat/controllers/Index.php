@@ -34,8 +34,8 @@ class Controller_Index extends Yaf_Controller_Abstract
 
             $this->logger->info($xml_str);
 
-            $this->logger->info("Class Wechat:" . class_exists('Wechat'));
-            $this->logger->info("Class \\Wechat:" . class_exists('\Wechat'));
+            $this->logger->info("Class Wechat:" . var_export(class_exists('Wechat')));
+            $this->logger->info("Class \\Wechat:" . var_export(class_exists('\Wechat')));
 
 //            $wechat = new Wechat();
 //
