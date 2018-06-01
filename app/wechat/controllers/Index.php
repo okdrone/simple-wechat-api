@@ -22,26 +22,31 @@ class Controller_Index extends Yaf_Controller_Abstract
 
     public function messageServiceAction(){
 
-        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-            if($this->checkSignature()) {
-                exit($this->getRequest()->get('echostr'));
+        try {
+
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                if ($this->checkSignature()) {
+                    exit($this->getRequest()->get('echostr'));
+                }
+            } else {
+
+                $this->logger->info('Received a message from Wechat:');
+
+                $xml_str = file_get_contents("php://input");
+
+                $this->logger->info($xml_str);
+
+                $this->logger->info("Class Wechat:" . class_exists('Wechat'));
+                $this->logger->info("Class \\Wechat:" . class_exists('\Wechat'));
+
+                $wechat = new Wechat();
+
+                $wechat->parseMessage($wechat);
+
+                $this->logger->info($xml_str);
             }
-        } else {
-
-            $this->logger->info('Received a message from Wechat:');
-
-            $xml_str = file_get_contents("php://input");
-
-            $this->logger->info($xml_str);
-
-            $this->logger->info("Class Wechat:" . var_export(class_exists('Wechat')));
-            $this->logger->info("Class \\Wechat:" . var_export(class_exists('\Wechat')));
-
-//            $wechat = new Wechat();
-//
-//            $wechat->parseMessage($wechat);
-
-            $this->logger->info($xml_str);
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
 
