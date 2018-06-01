@@ -23,6 +23,9 @@ class Controller_Index extends Yaf_Controller_Abstract
     public function greetingAction(){
         echo "Greeting:";
         echo 'Hello world!';
+
+        var_dump(method_exists($this, 'libraryTest'));
+
     }
 
     public function messageServiceAction(){
