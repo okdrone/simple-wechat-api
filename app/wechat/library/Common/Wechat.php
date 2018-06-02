@@ -7,14 +7,15 @@
  * Create Date: 2018/5/31
  * Description:
  **************************************************/
+namespace Common;
 
-class Common_Wechat
+class Wechat
 {
     protected $logger;
 
     public function __construct()
     {
-        $this->logger = new Logger_App();
+        $this->logger = new \Logger_App();
     }
 
     public function parseMessage($msg_str){
