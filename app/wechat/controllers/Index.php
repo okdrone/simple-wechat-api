@@ -20,6 +20,23 @@ class Controller_Index extends Yaf_Controller_Abstract
         $this->logger = new Logger_App();
     }
 
+    public function testAction() {
+        var_dump('Class exists:');
+        var_dump(class_exists('Common\Wechat'));
+
+        $wechat = new Common\Wechat();
+        $wechat->parseMessage('kkk');
+
+        //$loader = Yaf_Loader::getInstance();
+        //var_dump($loader->getLibraryPath());
+        //$loader->registerLocalNamespace('Common');
+
+       // var_dump('Class exists:');
+       // var_dump(class_exists('Common\Wechat'));
+       // var_dump(class_exists('Common_Wechat'));
+       // var_dump(class_exists('Wechat'));
+    }
+
     public function messageServiceAction(){
 
         try {
@@ -36,10 +53,7 @@ class Controller_Index extends Yaf_Controller_Abstract
 
                 $this->logger->info($xml_str);
 
-                $this->logger->info("Class Wechat:" . class_exists('Common_Wechat'));
-                $this->logger->info("Class \\Wechat:" . class_exists('\Wechat'));
-
-                $wechat = new Common_Wechat();
+                $wechat = new Common\Wechat();
 
                 $wechat->parseMessage($wechat);
 
