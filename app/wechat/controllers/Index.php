@@ -27,14 +27,21 @@ class Controller_Index extends Yaf_Controller_Abstract
         $wechat = new Common\Wechat();
         $wechat->parseMessage('kkk');
 
-        //$loader = Yaf_Loader::getInstance();
-        //var_dump($loader->getLibraryPath());
-        //$loader->registerLocalNamespace('Common');
+        $app = Yaf_Application::app();
 
-       // var_dump('Class exists:');
-       // var_dump(class_exists('Common\Wechat'));
-       // var_dump(class_exists('Common_Wechat'));
-       // var_dump(class_exists('Wechat'));
+        $conf = $app->getConfig();
+
+        var_dump($conf);
+
+        $modules = $app->getModules();
+
+        var_dump($modules);
+
+
+        $loader = Yaf_Loader::getInstance();
+        var_dump($loader);
+        var_dump($loader->getLibraryPath());
+        var_dump($loader->getLocalNamespace());
     }
 
     public function messageServiceAction(){
