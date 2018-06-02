@@ -35,10 +35,11 @@ class APP_Core
     static public function initYaf() {
 
         $objYCI = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . self::appName() .
-            DIRECTORY_SEPARATOR . 'app.ini');
+            DIRECTORY_SEPARATOR . 'app.ini', 'application');
         $yaf_conf = $objYCI->toArray();
         $yaf_conf['application']['directory'] = APP_PATH . DIRECTORY_SEPARATOR . self::appName();
         $yaf_conf['application']['library']['directory'] = $yaf_conf['application']['directory'] . DIRECTORY_SEPARATOR . 'library';
+
         new Yaf_Application($yaf_conf);
 
     }
