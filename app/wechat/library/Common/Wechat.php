@@ -91,7 +91,7 @@ class Wechat
 
     public function getUserInfoByOpenId($openId){
         if (isset($openId)){
-            $accessToken = AccessToken::getAccessToken($this->config['appid']);
+            $accessToken = AccessToken::getAccessToken($this->config);
             $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$accessToken.'&openid='.$openId.'&lang=zh_CN ';
             $info_result = Curl::get($url);
             if (!empty($info_result)){
