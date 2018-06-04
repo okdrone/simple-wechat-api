@@ -20,8 +20,9 @@ class DatabaseManager
 
             $conf = \App_Config::getDBConfig('wechat', $db_name);
 
-            var_dump($conf);
+            $db_conn = new DatabaseConnector($conf);
 
+            self::$databaseList[$db_name] = $db_conn;
         }
 
         return self::$databaseList[$db_name];
