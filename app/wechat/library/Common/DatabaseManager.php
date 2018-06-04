@@ -18,7 +18,7 @@ class DatabaseManager
     public static function getInstance($db_name){
         if(!key_exists($db_name, self::$databaseList)){
 
-            $conf = \App_Config::getDBConfig('wechat', 'application');
+            $conf = \App_Config::getDBConfig('wechat', $db_name);
 
             var_dump($conf);
 
