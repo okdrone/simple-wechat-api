@@ -14,10 +14,14 @@ class Controller_Index extends Yaf_Controller_Abstract
     // Only can be "production" or "debug".
     protected $deploy_mode = 'debug';
 
+    private $wechat_conf = [];
+
     public function init() {
         Yaf_Dispatcher::getInstance()->autoRender(FALSE);
 
         $this->logger = new Logger_App();
+
+        $this->wechat_conf = App_Config::getAppConfig('wechat', $this->deploy_mode);
     }
 
     public function testAction() {
@@ -65,8 +69,7 @@ class Controller_Index extends Yaf_Controller_Abstract
 
                 $this->logger->info($xml_str);
 
-                $wechat_conf = App_Config::getAppConfig('wechat', $this->deploy_mode);
-                $wechat = new Common\Wechat($wechat_conf);
+                $wechat = new Common\Wechat($this->wechat_conf);
 
                 $wechat->parseMessage($xml_str);
                 $response_msg = $wechat->responseHandler();
@@ -81,9 +84,8 @@ class Controller_Index extends Yaf_Controller_Abstract
     }
 
     private function checkSignature(){
-        $conf = App_Config::getAppConfig('wechat', $this->deploy_mode);
 
-        $token = $conf['wechat']['token'];
+        $token = $this->wechat_conf['wechat']['token'];
 
         $signature = $this->getRequest()->get("signature", 0);
         $timestamp = $this->getRequest()->get("timestamp", 0);
