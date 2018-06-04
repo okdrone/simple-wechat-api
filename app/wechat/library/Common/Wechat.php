@@ -69,6 +69,10 @@ class Wechat
 
         $openid = $request_msg->FromUserName;
 
+        $uInfo = $this->getUserInfoByOpenId($openid);
+
+        var_dump($uInfo);
+
         $user = new \Service_Wechat_UserInfo();
 
         $user_info = new \Dao_UserInfo();
@@ -82,5 +86,21 @@ class Wechat
 
         $this->logger->info('This is unsubscribe event.');
 
+    }
+
+    public function getUserInfoByOpenId($openId){
+        if (isset($openId)){
+            $accessToken = AccessToken::getAccessToken($this->config['appid']);
+            $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$accessToken.'&openid='.$openId.'&lang=zh_CN ';
+            $info_result = Curl::get($url);
+            if (!empty($info_result)){
+                $userInfo_arr = json_decode($info_result,true);
+                return $userInfo_arr;
+            }
+        }else{
+
+            return false;
+        }
+        return false;
     }
 }
