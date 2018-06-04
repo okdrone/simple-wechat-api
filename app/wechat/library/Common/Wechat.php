@@ -12,12 +12,13 @@ namespace Common;
 class Wechat
 {
     protected $logger;
-
+    protected $config;
     protected $request_msg;
 
-    public function __construct()
+    public function __construct($conf = [])
     {
         $this->logger = new \Logger_App();
+        $this->config = $conf;
     }
 
     public function parseMessage($msg_str){
@@ -66,6 +67,15 @@ class Wechat
 
         $this->logger->info('This is subscribe event.');
 
+        $openid = $request_msg->FromUserName;
+
+        $user = new \Service_Wechat_UserInfo();
+
+        $user_info = new \Dao_UserInfo();
+        $user_info->username = 'aaa';
+        $user_info->nickname = 'bbb';
+
+        $user->createUser($user_info);
     }
 
     private function doUnsubscribe(){
