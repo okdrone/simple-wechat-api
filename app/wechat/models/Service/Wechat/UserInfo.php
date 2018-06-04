@@ -16,7 +16,17 @@ class Service_Wechat_UserInfo
         $this->logger = new Logger_App();
     }
 
-    public function createUser(){
-        $this->logger->info('This is UserInfo model.!!!');
+    public function createUser(Dao_UserInfo $userInfo){
+
+        $db = \Common\DatabaseManager::getInstance('xyz');
+
+        if($db instanceof PDO){
+            $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `create_ts`) VALUE (:username, :nickname, :create_ts)');
+            $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
+            $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
+            $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
+            $stm->execute();
+        }
+
     }
 }
