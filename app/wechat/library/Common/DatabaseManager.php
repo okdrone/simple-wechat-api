@@ -20,9 +20,13 @@ class DatabaseManager
 
             $conf = \App_Config::getDBConfig('wechat', $db_name);
 
-            $db_conn = new DatabaseConnector($conf);
+            $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8', $conf['host'], $conf['port'], $conf['name']);
 
-            self::$databaseList[$db_name] = $db_conn;
+            $instance = new \PDO($dsn, $conf['user'], $conf['pswd']);
+
+            //$db_conn = new DatabaseConnector($conf);
+
+            self::$databaseList[$db_name] = $instance;
         }
 
         return self::$databaseList[$db_name];
