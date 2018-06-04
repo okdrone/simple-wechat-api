@@ -43,6 +43,10 @@ class Controller_Index extends Yaf_Controller_Abstract
         $db = \Common\DatabaseManager::getInstance('xyz');
 
         var_dump($db);
+
+        $user = new Service_Wechat_UserInfo();
+
+        var_dump($user);
     }
 
     public function messageServiceAction(){
