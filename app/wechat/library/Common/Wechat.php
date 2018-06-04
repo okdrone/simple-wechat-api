@@ -71,7 +71,8 @@ class Wechat
 
         $uInfo = $this->getUserInfoByOpenId($openid);
 
-        var_dump($uInfo);
+        $this->logger->info('-----------------------------------');
+        $this->logger->info(var_export($uInfo));
 
         $user = new \Service_Wechat_UserInfo();
 
