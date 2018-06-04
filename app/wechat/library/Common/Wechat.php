@@ -21,5 +21,9 @@ class Wechat
     public function parseMessage($msg_str){
 
         $this->logger->info('This is in Wechat class.');
+        $msg_obj = simplexml_load_string($msg_str, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        $this->logger->info('Message ID: ' . $msg_obj->MsgID);
+        $this->logger->info('Message Type: ' . $msg_obj->MsgType);
     }
 }
