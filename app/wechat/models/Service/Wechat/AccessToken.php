@@ -32,4 +32,23 @@ class Service_Wechat_AccessToken
 
         return $accessToken;
     }
+
+    public function setAccessTokenByApp(Dao_AccessToken $accessToken){
+
+        $ret = false;
+
+        $db = \Common\DatabaseManager::getInstance('xyz');
+
+        if($db instanceof PDO){
+            $stm = $db->prepare('INSERT INTO xyz_wechat_access_token (`app_id`, `type`, `access_token`, `create_ts`, `expire_ts`) VALUE (:app_id, :type, :access_token, :create_ts, :expire_ts)');
+            $stm->bindValue(':app_id', $accessToken->app_id, PDO::PARAM_STR);
+            $stm->bindValue(':type', $accessToken->type, PDO::PARAM_INT);
+            $stm->bindValue(':access_token', $accessToken->access_token, PDO::PARAM_STR);
+            $stm->bindValue(':create_ts', $accessToken->create_ts, PDO::PARAM_INT);
+            $stm->bindValue(':expire_ts', $accessToken->expire_ts, PDO::PARAM_INT);
+            $ret = $stm->execute();
+        }
+
+        return $ret;
+    }
 }
