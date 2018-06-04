@@ -15,7 +15,7 @@ class App_Config
      * @param string $section  Which section in the config file.
      * @return array Config options
      */
-    public static function getConfig($name, $section = ''){
+    public static function getAppConfig($name, $section = ''){
         $conf = [];
 
         if(!empty($name)){
@@ -26,6 +26,30 @@ class App_Config
             } else {
                 $confObj = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR
                     . APP_Core::appName() . DIRECTORY_SEPARATOR . $name . '.ini', $section);
+            }
+
+            $conf = $confObj->toArray();
+        }
+
+        return $conf;
+    }
+
+    /**
+     * @param string $name     Config file name.
+     * @param string $section  Which section in the config file.
+     * @return array Config options
+     */
+    public static function getDBConfig($name, $section = ''){
+        $conf = [];
+
+        if(!empty($name)){
+
+            if(empty($section)) {
+                $confObj = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'db'
+                    . DIRECTORY_SEPARATOR . $name . '.ini');
+            } else {
+                $confObj = new Yaf_Config_Ini(CONF_PATH . DIRECTORY_SEPARATOR . 'db'
+                    . DIRECTORY_SEPARATOR . $name . '.ini', $section);
             }
 
             $conf = $confObj->toArray();
