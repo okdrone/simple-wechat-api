@@ -31,9 +31,9 @@ DROP TABLE IF EXISTS `xyz_wechat_access_token`;
 CREATE TABLE `xyz_wechat_access_token` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Auto increase id',
   `app_id` varchar(128) NOT NULL DEFAULT '' COMMENT 'Wechat appid',
+  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'TYPE. 1=ACCESS_TOKEN, 2=JSAPI_TICKET, ...',
   `access_token` varchar(256) NOT NULL DEFAULT '' COMMENT 'access_token from wechat api',
   `create_ts` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Create time seconds',
   `expire_ts` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Expire time seconds',
-  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'TYPE. 1=ACCESS_TOKEN, 2=JSAPI_TICKET, ...',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wechat access_token maintenance table.';
