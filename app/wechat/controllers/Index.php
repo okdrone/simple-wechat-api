@@ -42,6 +42,12 @@ class Controller_Index extends Yaf_Controller_Abstract
         var_dump($loader);
         var_dump($loader->getLibraryPath());
         var_dump($loader->getLocalNamespace());
+
+
+        var_dump('Database -----------');
+        $db = \Common\DatabaseManager::getInstance('xyz');
+
+        var_dump($db);
     }
 
     public function messageServiceAction(){
@@ -60,7 +66,7 @@ class Controller_Index extends Yaf_Controller_Abstract
 
                 $this->logger->info($xml_str);
 
-                $wechat_conf = App_Config::getConfig('wechat', $this->deploy_mode);
+                $wechat_conf = App_Config::getAppConfig('wechat', $this->deploy_mode);
                 $wechat = new Common\Wechat($wechat_conf);
 
                 $wechat->parseMessage($xml_str);
@@ -76,7 +82,7 @@ class Controller_Index extends Yaf_Controller_Abstract
     }
 
     private function checkSignature(){
-        $conf = App_Config::getConfig('wechat', $this->deploy_mode);
+        $conf = App_Config::getAppConfig('wechat', $this->deploy_mode);
 
         $token = $conf['wechat']['token'];
 
