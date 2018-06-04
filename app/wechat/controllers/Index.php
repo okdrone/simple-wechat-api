@@ -21,11 +21,6 @@ class Controller_Index extends Yaf_Controller_Abstract
     }
 
     public function testAction() {
-        var_dump('Class exists:');
-        var_dump(class_exists('Common\Wechat'));
-
-        $wechat = new Common\Wechat();
-        $wechat->parseMessage('kkk');
 
         $app = Yaf_Application::app();
 
