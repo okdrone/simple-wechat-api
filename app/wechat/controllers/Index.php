@@ -63,8 +63,11 @@ class Controller_Index extends Yaf_Controller_Abstract
                 $wechat = new Common\Wechat();
 
                 $wechat->parseMessage($xml_str);
+                $response_msg = $wechat->responseHandler();
 
-                $this->logger->info($xml_str);
+                if(!empty($response_msg)){
+                    exit($response_msg);
+                }
             }
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
