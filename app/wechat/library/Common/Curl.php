@@ -26,6 +26,7 @@ class Curl
         $result = curl_exec($ch);
         if(curl_errno($ch)){
             $logger = new \Logger_App();
+            $logger->error(json_encode($opts));
             $logger->error('CURL ERROR:' . curl_error($ch));
         }
         curl_close($ch);
