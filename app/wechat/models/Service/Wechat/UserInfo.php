@@ -76,8 +76,9 @@ class Service_Wechat_UserInfo
                 $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
                 $ret = $stm->execute();
 
-                if($ret === false)
-                    throw new Exception('Query user open info failed!');
+                if($ret === false) {
+                    throw new Exception('Query user open info failed! ERROR:' . var_export($stm->errorInfo()));
+                }
 
                 $result = $stm->fetch(PDO::FETCH_ASSOC);
 
