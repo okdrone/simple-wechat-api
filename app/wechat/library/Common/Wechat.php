@@ -85,10 +85,19 @@ class Wechat
         }
     }
 
-    private function doUnsubscribe(){
+    private function doUnsubscribe($request_msg){
 
         $this->logger->info('This is unsubscribe event.');
 
+        $openid = $request_msg->FromUserName;
+
+        $userOpenInfo = new \Dao_UserOpenInfo();
+        $userOpenInfo->open_type = 1; // 1: Wechat
+        $userOpenInfo->open_app_id = $this->config['appid'];
+        $userOpenInfo->open_user_id = $openid;
+
+        $user = new \Service_Wechat_UserInfo();
+        $user->disableOpenUser($userOpenInfo);
     }
 
     public function getUserInfoByOpenId($openId){

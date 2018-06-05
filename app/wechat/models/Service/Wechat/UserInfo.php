@@ -61,4 +61,47 @@ class Service_Wechat_UserInfo
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
+
+    public function disableOpenUser(Dao_UserOpenInfo $userOpenInfo){
+        try {
+
+            $db = \Common\DatabaseManager::getInstance('xyz');
+
+            if ($db instanceof PDO) {
+                $db->beginTransaction();
+
+                $stm = $db->prepare('SELECT user_id xyz_user_open_info where `open_type`=:open_type and `open_app_id`=:open_app_id and `open_user_id`=:open_user_id limit 1');
+                $stm->bindValue(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
+                $stm->bindValue(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
+                $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
+                $ret = $stm->execute();
+
+                if($ret === false)
+                    throw new Exception('Query user open info failed!');
+
+                $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+                if($result){
+                    $user_id = $result['user_id'];
+                } else {
+                    throw new Exception('There was error when fetch user open info.');
+                }
+
+                $stm = $db->prepare('UPDATE xyz_user_open_info set `status`=1 where `user_id`=:user_id');
+                $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                $ret = $stm->execute();
+
+                if($ret === false) {
+                    throw new Exception('Disable user failed!');
+                }
+
+                $db->commit();
+            } else {
+                throw new Exception('The $db is not instance of PDO.');
+            }
+
+        } catch (Exception $e){
+            $this->logger->error($e->getMessage(), $e->getTrace());
+        }
+    }
 }
