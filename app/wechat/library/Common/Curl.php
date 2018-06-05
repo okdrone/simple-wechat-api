@@ -24,6 +24,10 @@ class Curl
         curl_setopt_array($ch, $opts);
 
         $result = curl_exec($ch);
+        if(curl_errno($ch)){
+            $logger = new \Logger_App();
+            $logger->error('CURL ERROR:' . curl_error($ch));
+        }
         curl_close($ch);
         return $result;
     }
