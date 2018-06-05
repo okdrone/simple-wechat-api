@@ -70,7 +70,7 @@ class Service_Wechat_UserInfo
             if ($db instanceof PDO) {
                 $db->beginTransaction();
 
-                $stm = $db->prepare('SELECT user_id xyz_user_open_info where `open_type`=:open_type and `open_app_id`=:open_app_id and `open_user_id`=:open_user_id limit 1');
+                $stm = $db->prepare('SELECT user_id from xyz_user_open_info where `open_type`=:open_type and `open_app_id`=:open_app_id and `open_user_id`=:open_user_id limit 1');
                 $stm->bindValue(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
                 $stm->bindValue(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
                 $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
