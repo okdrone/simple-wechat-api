@@ -31,6 +31,9 @@ class AccessToken
             }
         }
 
+        $logger->warning('Can not found AccessToken from local storage.');
+
+
         /**
          * 2. Get from database
          */
@@ -48,6 +51,8 @@ class AccessToken
                 return $tokenData['access_token'];
             }
         }
+
+        $logger->warning('Can not found AccessToken from database.');
 
         /**
          * 3. Get from Wechat API and sync to database
