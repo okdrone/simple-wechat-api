@@ -40,7 +40,7 @@ class AccessToken
         $serviceAccessToken = new \Service_Wechat_AccessToken();
 
         $accessTokenObj = $serviceAccessToken->getAccessTokenByApp($appId);
-        if($accessTokenObj instanceof \Dao_UserInfo && !empty($accessTokenObj->access_token)) {
+        if($accessTokenObj instanceof \Dao_AccessToken && !empty($accessTokenObj->access_token)) {
             $tokenData = array(
                 'access_token' => $accessTokenObj->access_token,
                 'create_ts' => $accessTokenObj->create_ts,
