@@ -25,7 +25,6 @@ class Wechat
 
     public function parseMessage($msg_str){
 
-        $this->logger->info('This is in Wechat class.');
         $this->request_msg = simplexml_load_string($msg_str, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $this->logger->info('Message ID: ' . $this->request_msg->MsgID);
@@ -76,6 +75,8 @@ class Wechat
         if($user_info !== false){
             $user = new \Service_Wechat_UserInfo();
             $user->createUser($user_info);
+        } else {
+            $this->logger->error('There has error when getting user info from Wechat.');
         }
     }
 
@@ -86,27 +87,38 @@ class Wechat
     }
 
     public function getUserInfoByOpenId($openId){
-        if (isset($openId)){
+        $userInfo = new \Dao_UserInfo();
+
+        try {
+
+            if (empty($openId))
+                throw new \Exception('The input openId is empty!');
+
             $accessToken = AccessToken::getAccessToken($this->config);
-            $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$accessToken.'&openid='.$openId.'&lang=zh_CN ';
+
+            if (empty($accessToken))
+                throw new \Exception('The AccessToken is empty!');
+
+            $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . $accessToken . '&openid=' . $openId . '&lang=zh_CN ';
             $info_result = Curl::get($url);
-            if (!empty($info_result)){
-                $userInfo_arr = json_decode($info_result,true);
-                if(!isset($userInfo_arr['errcode'])){
-                    $userInfo = new \Dao_UserInfo();
-                    $userInfo->username = 'wx_' . $userInfo_arr['nickname'];
-                    $userInfo->nickname = $userInfo_arr['nickname'];
-                    $userInfo->icon = $userInfo_arr['headimgurl'];
 
-                    return $userInfo;
-                } else {
-                    return false;
-                }
+            if ($info_result === false)
+                throw new \Exception('There was something error when calling Wechat API to get user info.');
+
+
+            $userInfo_arr = json_decode($info_result, true);
+            if (!isset($userInfo_arr['errcode'])) {
+                $userInfo = new \Dao_UserInfo();
+                $userInfo->username = 'wx_' . $userInfo_arr['nickname'];
+                $userInfo->nickname = $userInfo_arr['nickname'];
+                $userInfo->icon = $userInfo_arr['headimgurl'];
+            } else {
+                throw new \Exception(sprintf('Response error [%s] when calling Wechat API.', json_encode($userInfo_arr)));
             }
-        }else{
 
-            return false;
+        } catch (\Exception $e){
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
-        return false;
+        return $userInfo;
     }
 }
