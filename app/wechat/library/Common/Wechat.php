@@ -71,18 +71,12 @@ class Wechat
 
         $openid = $request_msg->FromUserName;
 
-        $uInfo = $this->getUserInfoByOpenId($openid);
+        $user_info = $uInfo = $this->getUserInfoByOpenId($openid);
 
-        $this->logger->info('-----------------------------------');
-        $this->logger->info(var_export($uInfo));
-
-        $user = new \Service_Wechat_UserInfo();
-
-        $user_info = new \Dao_UserInfo();
-        $user_info->username = 'aaa';
-        $user_info->nickname = 'bbb';
-
-        $user->createUser($user_info);
+        if($user_info !== false){
+            $user = new \Service_Wechat_UserInfo();
+            $user->createUser($user_info);
+        }
     }
 
     private function doUnsubscribe(){
@@ -98,7 +92,16 @@ class Wechat
             $info_result = Curl::get($url);
             if (!empty($info_result)){
                 $userInfo_arr = json_decode($info_result,true);
-                return $userInfo_arr;
+                if(!isset($userInfo_arr['errcode'])){
+                    $userInfo = new \Dao_UserInfo();
+                    $userInfo->username = 'wx_' . $userInfo_arr['nickname'];
+                    $userInfo->nickname = $userInfo_arr['nickname'];
+                    $userInfo->icon = $userInfo_arr['headimgurl'];
+
+                    return $userInfo;
+                } else {
+                    return false;
+                }
             }
         }else{
 
