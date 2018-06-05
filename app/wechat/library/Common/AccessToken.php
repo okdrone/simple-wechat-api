@@ -16,6 +16,8 @@ class AccessToken
 
     public static function getAccessToken($conf){
 
+        $logger = new \Logger_App();
+
         $appId = $conf['appid'];
 
         /**
@@ -54,6 +56,9 @@ class AccessToken
         $current_time = time();
         $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $appId, $conf['appsecret']);
         $res = Curl::get($url);
+
+        $logger->info('Getting AccessToken Response:'. $res);
+
         if (!empty($res)) {
             $ret = json_decode($res, true);
             $strAccessToken = $ret['access_token'];
