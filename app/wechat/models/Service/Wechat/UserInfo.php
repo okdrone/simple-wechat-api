@@ -88,12 +88,14 @@ class Service_Wechat_UserInfo
                     throw new Exception('There was error when fetch user open info.');
                 }
 
+                $this->logger->info('User ID:' . $user_id);
+
                 $stm = $db->prepare('UPDATE xyz_user_open_info set `status`=1 where `user_id`=:user_id');
                 $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
                 $ret = $stm->execute();
 
                 if($ret === false) {
-                    throw new Exception('Disable user failed!');
+                    throw new Exception('Disable user failed! ERROR:' . json_encode($stm->errorInfo()));
                 }
 
                 $db->commit();
