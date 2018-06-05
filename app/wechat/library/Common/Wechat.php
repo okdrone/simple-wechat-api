@@ -18,7 +18,9 @@ class Wechat
     public function __construct($conf = [])
     {
         $this->logger = new \Logger_App();
-        $this->config = $conf;
+        if(isset($conf['wechat'])) {
+            $this->config = $conf['wechat'];
+        }
     }
 
     public function parseMessage($msg_str){
