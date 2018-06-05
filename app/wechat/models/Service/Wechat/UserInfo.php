@@ -16,17 +16,49 @@ class Service_Wechat_UserInfo
         $this->logger = new Logger_App();
     }
 
-    public function createUser(Dao_UserInfo $userInfo){
+    public function createUser(Dao_UserInfo $userInfo, Dao_UserOpenInfo $userOpenInfo){
 
-        $db = \Common\DatabaseManager::getInstance('xyz');
+        try {
 
-        if($db instanceof PDO){
-            $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `create_ts`) VALUE (:username, :nickname, :create_ts)');
-            $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
-            $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
-            $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
-            $stm->execute();
+            $db = \Common\DatabaseManager::getInstance('xyz');
+
+            if ($db instanceof PDO) {
+                $db->beginTransaction();
+
+                $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `icon`, `create_ts`) VALUE (:username, :nickname, :icon, :create_ts)');
+                $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
+                $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
+                $stm->bindValue(':icon', $userInfo->icon, PDO::PARAM_STR);
+                $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
+                $ret = $stm->execute();
+
+                if($ret === false)
+                    throw new Exception('Create user failed!');
+
+                $user_id = $db->lastInsertId();
+
+                $userOpenInfo->user_id = $user_id;
+
+                $stm = $db->prepare('INSERT INTO xyz_user_open_info (`user_id`, `open_type`, `open_app_id`, `open_user_id`, `create_ts`) VALUE (:user_id, :open_type, :open_app_id, :open_user_id, :create_ts)');
+                $stm->bindValue(':user_id', $userOpenInfo->user_id, PDO::PARAM_INT);
+                $stm->bindValue(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
+                $stm->bindValue(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
+                $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
+                $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
+                $ret = $stm->execute();
+
+                if($ret === false) {
+                    $db->rollBack();
+                    throw new Exception('Create user failed!');
+                }
+
+                $db->commit();
+            } else {
+                throw new Exception('The $db is not instance of PDO.');
+            }
+
+        } catch (Exception $e){
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
-
     }
 }

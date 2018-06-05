@@ -72,9 +72,14 @@ class Wechat
 
         $user_info = $uInfo = $this->getUserInfoByOpenId($openid);
 
+        $userOpenInfo = new \Dao_UserOpenInfo();
+        $userOpenInfo->open_type = 1; // 1: Wechat
+        $userOpenInfo->open_app_id = $this->config['appid'];
+        $userOpenInfo->open_user_id = $openid;
+
         if($user_info !== false){
             $user = new \Service_Wechat_UserInfo();
-            $user->createUser($user_info);
+            $user->createUser($user_info, $userOpenInfo);
         } else {
             $this->logger->error('There has error when getting user info from Wechat.');
         }
