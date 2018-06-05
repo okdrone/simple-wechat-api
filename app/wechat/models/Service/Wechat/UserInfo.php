@@ -90,7 +90,7 @@ class Service_Wechat_UserInfo
 
                 $this->logger->info('User ID:' . $user_id);
 
-                $stm = $db->prepare('UPDATE xyz_user_open_info set `status`=1 where `user_id`=:user_id');
+                $stm = $db->prepare('UPDATE xyz_user_info set `status`=1 where `user_id`=:user_id');
                 $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
                 $ret = $stm->execute();
 
