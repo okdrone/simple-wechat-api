@@ -146,7 +146,7 @@ class Logger_App implements Logger_Interface
         }
 
         $log_file = LOG_PATH . DIRECTORY_SEPARATOR . date('YmdH') . '.log';
-        $log_msg = sprintf("%s\t%s\t%s\t%s\n\r", $time, $message, $_SERVER["REQUEST_URI"], json_encode($context));
+        $log_msg = sprintf("%s\t%s\t%s\t%s\t%s\n\r", $time, strtoupper($level), $message, $_SERVER["REQUEST_URI"], json_encode($context));
 
         error_log($log_msg, 3, $log_file, FILE_APPEND);
     }
