@@ -18,7 +18,7 @@ class Service_Wechat_AccessToken
 
         if($db instanceof PDO){
             $stm = $db->query('SELECT * FROM xyz_wechat_access_token where appid=:appid and `type`=1');
-            $stm->bindValue(':appid', $appid, PDO::PARAM_STR);
+            $stm->bindParam(':appid', $appid, PDO::PARAM_STR);
             $stm->execute();
             $ret = $stm->fetch(PDO::FETCH_ASSOC);
 
@@ -41,11 +41,11 @@ class Service_Wechat_AccessToken
 
         if($db instanceof PDO){
             $stm = $db->prepare('INSERT INTO xyz_wechat_access_token (`app_id`, `type`, `access_token`, `create_ts`, `expire_ts`) VALUE (:app_id, :type, :access_token, :create_ts, :expire_ts)');
-            $stm->bindValue(':app_id', $accessToken->app_id, PDO::PARAM_STR);
-            $stm->bindValue(':type', $accessToken->type, PDO::PARAM_INT);
-            $stm->bindValue(':access_token', $accessToken->access_token, PDO::PARAM_STR);
-            $stm->bindValue(':create_ts', $accessToken->create_ts, PDO::PARAM_INT);
-            $stm->bindValue(':expire_ts', $accessToken->expire_ts, PDO::PARAM_INT);
+            $stm->bindParam(':app_id', $accessToken->app_id, PDO::PARAM_STR);
+            $stm->bindParam(':type', $accessToken->type, PDO::PARAM_INT);
+            $stm->bindParam(':access_token', $accessToken->access_token, PDO::PARAM_STR);
+            $stm->bindParam(':create_ts', $accessToken->create_ts, PDO::PARAM_INT);
+            $stm->bindParam(':expire_ts', $accessToken->expire_ts, PDO::PARAM_INT);
             $ret = $stm->execute();
         }
 
