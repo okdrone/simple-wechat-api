@@ -35,9 +35,11 @@ class Service_Wechat_AccessToken
                     $accessToken->access_token = $ret['access_token'];
                     $accessToken->create_ts = $ret['create_ts'];
                     $accessToken->expire_ts = $ret['expire_ts'];
+                } else {
+                    throw new Exception('There was error when fetch AccessToken.');
                 }
             } else {
-                new Exception('The $db is not instance of PDO when connecting to database.');
+                throw new Exception('The $db is not instance of PDO when connecting to database.');
             }
         } catch (Exception $e){
             $this->logger->error($e->getMessage(), $e->getTrace());
