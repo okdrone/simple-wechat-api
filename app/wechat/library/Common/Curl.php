@@ -38,18 +38,18 @@ class Curl
     }
 
     public static function get($url){
-        $arr_opts = array_merge(self::$default_opts, array(
+        $arr_opts = self::$default_opts + array(
             CURLOPT_URL => $url
-        ));
+        );
 
         return self::send($arr_opts);
     }
 
     public static function post($url, $data){
-        $arr_opts = array_merge(self::$default_opts, array(
+        $arr_opts = self::$default_opts + array(
             CURLOPT_URL => $url,
             CURLOPT_POSTFIELDS => $data
-        ));
+        );
 
         return self::send($arr_opts);
     }
