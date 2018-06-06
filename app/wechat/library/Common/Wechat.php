@@ -51,6 +51,10 @@ class Wechat
 
                         break;
 
+                    case 'text':
+                        $response_msg = $this->responseMessage($this->request_msg);
+                        break;
+
                     default:
                         $this->logger->warning('Unsupported message type:' . $this->request_msg->MsgType);
                 }
@@ -98,6 +102,25 @@ class Wechat
 
         $user = new \Service_Wechat_UserInfo();
         $user->disableOpenUser($userOpenInfo);
+    }
+
+    private function responseMessage($request_msg){
+        $this->logger->info('This is a text message.');
+
+        $openid = $request_msg->FromUserName;
+
+        $userOpenInfo = new \Dao_UserOpenInfo();
+        $userOpenInfo->open_type = 1; // 1: Wechat
+        $userOpenInfo->open_app_id = $this->config['appid'];
+        $userOpenInfo->open_user_id = $openid;
+
+        $user = new \Service_Wechat_UserInfo();
+        $ret = $user->getUserByOpenInfo($userOpenInfo);
+
+        $this->logger->error('Result:'.json_encode($ret));
+
+
+        return 'Good!';
     }
 
     public function getUserInfoByOpenId($openId){

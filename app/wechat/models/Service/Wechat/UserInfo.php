@@ -106,6 +106,71 @@ class Service_Wechat_UserInfo
         }
     }
 
+    public function getUserByOpenInfo(Dao_UserOpenInfo $userOpenInfo){
+        $retUserInfo = false;
+
+        try {
+
+            $db = \Common\DatabaseManager::getInstance('xyz');
+
+            if ($db instanceof PDO) {
+
+                $stm = $db->prepare('SELECT user_id from xyz_user_open_info where `open_type`=:open_type and `open_app_id`=:open_app_id and `open_user_id`=:open_user_id limit 1');
+                $stm->bindParam(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
+                $stm->bindParam(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
+                $stm->bindParam(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
+                $ret = $stm->execute();
+
+                if($ret === false) {
+                    throw new Exception('Query user open info failed! ERROR:' . json_encode($stm->errorInfo()));
+                }
+
+                if($stm->rowCount() > 0){
+                    $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+                    if($result){
+                        $user_id = $result['user_id'];
+                    } else {
+                        throw new Exception('There was error when fetch user open info.');
+                    }
+
+                    $this->logger->info('User ID:' . $user_id);
+
+                    $stm = $db->prepare('SELECT * from xyz_user_info where `user_id`=:user_id');
+                    $stm->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+                    $ret = $stm->execute();
+
+                    if($ret === false) {
+                        throw new Exception('Query user info failed! ERROR:' . json_encode($stm->errorInfo()));
+                    }
+
+                    if($stm->rowCount() > 0){
+                        $result = $stm->fetch();
+
+                        if($result){
+                            $retUserInfo = new Dao_UserInfo();
+                            $retUserInfo->user_id = $result['user_id'];
+                            $retUserInfo->username = $result['username'];
+                            $retUserInfo->nickname = $result['nickname'];
+                            $retUserInfo->icon = $result['icon'];
+                            $retUserInfo->status = $result['status'];
+                        } else {
+                            throw new Exception('There was error when fetch user info.');
+                        }
+                    }
+                }
+
+            } else {
+                throw new Exception('The $db is not instance of PDO.');
+            }
+
+        } catch (Exception $e){
+            $this->logger->error($e->getMessage(), $e->getTrace());
+        }
+
+        return $retUserInfo;
+    }
+
     public function disableOpenUser(Dao_UserOpenInfo $userOpenInfo){
         try {
 
