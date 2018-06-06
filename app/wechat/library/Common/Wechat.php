@@ -120,7 +120,7 @@ class Wechat
         $this->logger->error('Result:'.json_encode($ret));
 
 
-        return 'Good!';
+        return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), 'Good!');
     }
 
     public function getUserInfoByOpenId($openId){
@@ -158,4 +158,14 @@ class Wechat
         }
         return $userInfo;
     }
+
+    private $responseMsgTempletes = [
+        'text' => '<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[%s]]></Content>
+                   </xml>'
+    ];
 }

@@ -154,6 +154,7 @@ class Service_Wechat_UserInfo
                             $retUserInfo->nickname = $result['nickname'];
                             $retUserInfo->icon = $result['icon'];
                             $retUserInfo->status = $result['status'];
+                            $retUserInfo->create_ts = $result['create_ts'];
                         } else {
                             throw new Exception('There was error when fetch user info.');
                         }
