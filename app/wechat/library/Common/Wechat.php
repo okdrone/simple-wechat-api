@@ -24,11 +24,8 @@ class Wechat
     }
 
     public function parseMessage($msg_str){
-
         $this->request_msg = simplexml_load_string($msg_str, 'SimpleXMLElement', LIBXML_NOCDATA);
-
-        $this->logger->info('Message ID: ' . $this->request_msg->MsgID);
-        $this->logger->info('Message Type: ' . $this->request_msg->MsgType);
+        return $this->request_msg;
     }
 
     public function responseHandler(){
@@ -83,7 +80,11 @@ class Wechat
         $user_info = $userInfoService->getUserByOpenInfo($userOpenInfo);
 
         if($user_info !== false && $user_info instanceof \Dao_UserInfo){
+
+            $this->logger->warning('------user exists');
+            
             if($user_info->status === \Dao_UserState::DISABLE){
+                $this->logger->warning('------user disabled');
                 $userInfoService->enableOpenUser($userOpenInfo);
             }
 
