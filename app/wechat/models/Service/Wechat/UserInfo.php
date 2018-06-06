@@ -46,6 +46,16 @@ class Service_Wechat_UserInfo
                         $user_status = $result['status'];
 
                         $this->logger->info('uid:' . $user_id . '=>ustat:' . $user_status);
+
+                        if($user_status === 1){
+                            $stm = $db->prepare('UPDATE xyz_user_info set `status`=0 where `user_id`=:user_id');
+                            $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                            $ret = $stm->execute();
+
+                            if($ret === false) {
+                                throw new Exception('Enable user failed! ERROR:' . json_encode($stm->errorInfo()));
+                            }
+                        }
                     } else {
                         throw new Exception('There was error when fetch user open info.');
                     }
