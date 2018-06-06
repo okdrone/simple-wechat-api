@@ -38,48 +38,52 @@ class Service_Wechat_UserInfo
                     throw new Exception('Query user open info failed! ERROR:' . json_encode($stm->errorInfo()));
                 }
 
-                $result = $stm->fetch(PDO::FETCH_ASSOC);
+                if ($stm->rowCount() > 0) {
+                    $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-                if($result){
-                    $user_id = $result['user_id'];
-                    $user_status = $result['status'];
+                    if ($result) {
+                        $user_id = $result['user_id'];
+                        $user_status = $result['status'];
 
-                    $this->logger->info('uid:' . $user_id . '=>ustat:' . $user_status);
+                        $this->logger->info('uid:' . $user_id . '=>ustat:' . $user_status);
+                    } else {
+                        throw new Exception('There was error when fetch user open info.');
+                    }
                 } else {
-                    throw new Exception('There was error when fetch user open info.');
-                }
 
-                /**
-                 * 2. Create user info
-                 */
-                $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `icon`, `create_ts`) VALUE (:username, :nickname, :icon, :create_ts)');
-                $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
-                $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
-                $stm->bindValue(':icon', $userInfo->icon, PDO::PARAM_STR);
-                $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
-                $ret = $stm->execute();
+                    /**
+                     * 2. Create user info
+                     */
+                    $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `icon`, `create_ts`) VALUE (:username, :nickname, :icon, :create_ts)');
+                    $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
+                    $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
+                    $stm->bindValue(':icon', $userInfo->icon, PDO::PARAM_STR);
+                    $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
+                    $ret = $stm->execute();
 
-                if($ret === false)
-                    throw new Exception('Create user failed! ERROR:' . json_encode($stm->errorInfo()));
+                    if ($ret === false)
+                        throw new Exception('Create user failed! ERROR:' . json_encode($stm->errorInfo()));
 
-                $user_id = $db->lastInsertId();
+                    $user_id = $db->lastInsertId();
 
-                $userOpenInfo->user_id = $user_id;
+                    $userOpenInfo->user_id = $user_id;
 
-                /**
-                 * 3. Create user open info
-                 */
-                $stm = $db->prepare('INSERT INTO xyz_user_open_info (`user_id`, `open_type`, `open_app_id`, `open_user_id`, `create_ts`) VALUE (:user_id, :open_type, :open_app_id, :open_user_id, :create_ts)');
-                $stm->bindValue(':user_id', $userOpenInfo->user_id, PDO::PARAM_INT);
-                $stm->bindValue(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
-                $stm->bindValue(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
-                $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
-                $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
-                $ret = $stm->execute();
+                    /**
+                     * 3. Create user open info
+                     */
+                    $stm = $db->prepare('INSERT INTO xyz_user_open_info (`user_id`, `open_type`, `open_app_id`, `open_user_id`, `create_ts`) VALUE (:user_id, :open_type, :open_app_id, :open_user_id, :create_ts)');
+                    $stm->bindValue(':user_id', $userOpenInfo->user_id, PDO::PARAM_INT);
+                    $stm->bindValue(':open_type', $userOpenInfo->open_type, PDO::PARAM_INT);
+                    $stm->bindValue(':open_app_id', $userOpenInfo->open_app_id, PDO::PARAM_STR);
+                    $stm->bindValue(':open_user_id', $userOpenInfo->open_user_id, PDO::PARAM_STR);
+                    $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
+                    $ret = $stm->execute();
 
-                if($ret === false) {
-                    $db->rollBack();
-                    throw new Exception('Create user open info failed! ERROR:' . json_encode($stm->errorInfo()));
+                    if ($ret === false) {
+                        $db->rollBack();
+                        throw new Exception('Create user open info failed! ERROR:' . json_encode($stm->errorInfo()));
+                    }
+
                 }
 
                 $db->commit();
@@ -110,22 +114,24 @@ class Service_Wechat_UserInfo
                     throw new Exception('Query user open info failed! ERROR:' . json_encode($stm->errorInfo()));
                 }
 
-                $result = $stm->fetch(PDO::FETCH_ASSOC);
+                if($stm->rowCount() > 0){
+                    $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-                if($result){
-                    $user_id = $result['user_id'];
-                } else {
-                    throw new Exception('There was error when fetch user open info.');
-                }
+                    if($result){
+                        $user_id = $result['user_id'];
+                    } else {
+                        throw new Exception('There was error when fetch user open info.');
+                    }
 
-                $this->logger->info('User ID:' . $user_id);
+                    $this->logger->info('User ID:' . $user_id);
 
-                $stm = $db->prepare('UPDATE xyz_user_info set `status`=1 where `user_id`=:user_id');
-                $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-                $ret = $stm->execute();
+                    $stm = $db->prepare('UPDATE xyz_user_info set `status`=1 where `user_id`=:user_id');
+                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                    $ret = $stm->execute();
 
-                if($ret === false) {
-                    throw new Exception('Disable user failed! ERROR:' . json_encode($stm->errorInfo()));
+                    if($ret === false) {
+                        throw new Exception('Disable user failed! ERROR:' . json_encode($stm->errorInfo()));
+                    }
                 }
 
                 $db->commit();

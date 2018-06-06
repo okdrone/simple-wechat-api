@@ -46,7 +46,7 @@ class Service_Wechat_AccessToken
                         throw new Exception('There was error when fetch AccessToken. Error:' . var_export($stm->errorInfo()));
                     }
                 }
-                
+
             } else {
                 throw new Exception('The $db is not instance of PDO when connecting to database.');
             }
