@@ -52,7 +52,7 @@ class Wechat
                         break;
 
                     case 'text':
-                        $response_msg = $this->responseMessage($this->request_msg);
+                        $response_msg = $this->responseTextMessage($this->request_msg, 'Good!');
                         break;
 
                     default:
@@ -74,19 +74,30 @@ class Wechat
 
         $openid = $request_msg->FromUserName;
 
-        $user_info = $uInfo = $this->getUserInfoByOpenId($openid);
-
         $userOpenInfo = new \Dao_UserOpenInfo();
         $userOpenInfo->open_type = 1; // 1: Wechat
         $userOpenInfo->open_app_id = $this->config['appid'];
         $userOpenInfo->open_user_id = $openid;
 
-        if($user_info !== false){
-            $user = new \Service_Wechat_UserInfo();
-            $user->createUser($user_info, $userOpenInfo);
+        $userInfoService = new \Service_Wechat_UserInfo();
+        $user_info = $userInfoService->getUserByOpenInfo($userOpenInfo);
+
+        if($user_info !== false && $user_info instanceof \Dao_UserInfo){
+            if($user_info->status === 1){
+                $userInfoService->enableOpenUser($userOpenInfo);
+            }
+
         } else {
-            $this->logger->error('There has error when getting user info from Wechat.');
+            $user_info = $this->getUserInfoByOpenId($openid);
+
+            if($user_info !== false){
+                $userInfoService->createUser($user_info, $userOpenInfo);
+            } else {
+                $this->logger->error('There has error when getting user info from Wechat.');
+            }
         }
+
+        return $this->responseTextMessage($request_msg, 'Welcome!');
     }
 
     private function doUnsubscribe($request_msg){
@@ -104,7 +115,7 @@ class Wechat
         $user->disableOpenUser($userOpenInfo);
     }
 
-    private function responseMessage($request_msg){
+    private function responseTextMessage($request_msg, $msg){
         $this->logger->info('This is a text message.');
 
         $openid = $request_msg->FromUserName;
@@ -120,11 +131,11 @@ class Wechat
         $this->logger->error('Result:'.json_encode($ret));
 
 
-        return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), 'Good!');
+        return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), $msg);
     }
 
     public function getUserInfoByOpenId($openId){
-        $userInfo = new \Dao_UserInfo();
+        $userInfo = false;
 
         try {
 
