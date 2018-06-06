@@ -129,9 +129,9 @@ class Wechat
 
         $this->logger->error("User state:" . $user_info->status);
 
-        $this->logger->error("User xxxx-----:" . json_encode($user_info->status === \Dao_UserState::DISABLE));
+        $this->logger->error("User xxxx-----:" . json_encode($user_info->status == \Dao_UserState::DISABLE));
 
-        if($user_info->status === \Dao_UserState::DISABLE) {
+        if($user_info->status == \Dao_UserState::DISABLE) {
             $this->logger->warning('Current user state is:' . $user_info->status);
         }
 
