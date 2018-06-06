@@ -126,10 +126,9 @@ class Wechat
         $userOpenInfo->open_user_id = $openid;
 
         $user = new \Service_Wechat_UserInfo();
-        $ret = $user->getUserByOpenInfo($userOpenInfo);
+        $user_info = $user->getUserByOpenInfo($userOpenInfo);
 
-        $this->logger->error('Result:'.json_encode($ret));
-
+        $this->logger->error('User state:' . $user_info->status);
 
         return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), $msg);
     }
