@@ -83,7 +83,7 @@ class Wechat
 
             $this->logger->warning('------user exists');
 
-            if($user_info->status === \Dao_UserState::DISABLE){
+            if($user_info->status == \Dao_UserState::DISABLE){
                 $this->logger->warning('------user disabled');
                 $userInfoService->enableOpenUser($userOpenInfo);
             }
@@ -126,10 +126,6 @@ class Wechat
 
         $user = new \Service_Wechat_UserInfo();
         $user_info = $user->getUserByOpenInfo($userOpenInfo);
-
-        $this->logger->error("User state:" . $user_info->status);
-
-        $this->logger->error("User xxxx-----:" . json_encode($user_info->status == \Dao_UserState::DISABLE));
 
         if($user_info->status == \Dao_UserState::DISABLE) {
             $this->logger->warning('Current user state is:' . $user_info->status);
