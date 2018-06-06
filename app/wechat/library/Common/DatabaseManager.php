@@ -20,9 +20,15 @@ class DatabaseManager
 
             $conf = \App_Config::getDBConfig('wechat', $db_name);
 
+            $options = array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                \PDO::ATTR_AUTOCOMMIT => false
+            );
+
             $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8', $conf['host'], $conf['port'], $conf['name']);
 
-            $instance = new \PDO($dsn, $conf['user'], $conf['pswd']);
+            $instance = new \PDO($dsn, $conf['user'], $conf['pswd'], $options);
 
             //$db_conn = new DatabaseConnector($conf);
 
