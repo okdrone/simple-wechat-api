@@ -14,5 +14,6 @@ class Dao_UserInfo
     public $nickname = null;
     public $icon = null;
     public $phone = null;
+    public $status = null;
     public $create_ts = null;
 }
