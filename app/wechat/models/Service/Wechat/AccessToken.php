@@ -28,6 +28,9 @@ class Service_Wechat_AccessToken
                 $stm = $db->prepare('SELECT * FROM xyz_wechat_access_token where app_id=:app_id and `type`=1');
                 $stm->bindParam(':app_id', $app_id, PDO::PARAM_STR);
                 $stm->execute();
+
+                $this->logger->info('Got rows:' . $stm->rowCount());
+
                 $ret = $stm->fetch(PDO::FETCH_ASSOC);
 
                 if ($ret) {
