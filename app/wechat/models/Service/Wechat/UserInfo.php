@@ -45,8 +45,6 @@ class Service_Wechat_UserInfo
                         $user_id = $result['user_id'];
                         $user_status = $result['status'];
 
-                        $this->logger->info('uid:' . $user_id . '=>ustat:' . $user_status);
-
                         if($user_status === 1){
                             $stm = $db->prepare('UPDATE xyz_user_info set `status`=0 where `user_id`=:user_id');
                             $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -197,8 +195,6 @@ class Service_Wechat_UserInfo
                         throw new Exception('There was error when fetch user open info.');
                     }
 
-                    $this->logger->info('User ID:' . $user_id);
-
                     $stm = $db->prepare('UPDATE xyz_user_info set `status`=:user_status where `user_id`=:user_id');
                     $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
                     $stm->bindValue(':user_status', Dao_UserState::ENABLE, PDO::PARAM_INT);
@@ -245,8 +241,6 @@ class Service_Wechat_UserInfo
                     } else {
                         throw new Exception('There was error when fetch user open info.');
                     }
-
-                    $this->logger->info('User ID:' . $user_id);
 
                     $stm = $db->prepare('UPDATE xyz_user_info set `status`=:user_status where `user_id`=:user_id');
                     $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
