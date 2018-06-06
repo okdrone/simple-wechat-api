@@ -83,7 +83,7 @@ class Wechat
         $user_info = $userInfoService->getUserByOpenInfo($userOpenInfo);
 
         if($user_info !== false && $user_info instanceof \Dao_UserInfo){
-            if($user_info->status === 1){
+            if($user_info->status === \Dao_UserState::DISABLE){
                 $userInfoService->enableOpenUser($userOpenInfo);
             }
 
@@ -116,8 +116,6 @@ class Wechat
     }
 
     private function responseTextMessage($request_msg, $msg){
-        $this->logger->info('This is a text message.');
-
         $openid = $request_msg->FromUserName;
 
         $userOpenInfo = new \Dao_UserOpenInfo();
@@ -128,7 +126,9 @@ class Wechat
         $user = new \Service_Wechat_UserInfo();
         $user_info = $user->getUserByOpenInfo($userOpenInfo);
 
-        $this->logger->error('User state:' . $user_info->status);
+        if($user_info->status === \Dao_UserState::DISABLE) {
+            $this->logger->warning('Current user state is:' . $user_info->status);
+        }
 
         return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), $msg);
     }
