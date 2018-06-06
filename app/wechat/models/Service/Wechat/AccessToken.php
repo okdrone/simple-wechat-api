@@ -29,18 +29,24 @@ class Service_Wechat_AccessToken
                 $stm->bindParam(':app_id', $app_id, PDO::PARAM_STR);
                 $stm->execute();
 
-                $this->logger->info('Got rows:' . $stm->rowCount());
+                // When using rowCount read official document first: http://php.net/manual/en/pdostatement.rowcount.php
+                $gotRows = $stm->rowCount();
 
-                $ret = $stm->fetch(PDO::FETCH_ASSOC);
+                $this->logger->info('Got rows:' . $gotRows);
 
-                if ($ret) {
-                    $accessToken->id = $ret['id'];
-                    $accessToken->access_token = $ret['access_token'];
-                    $accessToken->create_ts = $ret['create_ts'];
-                    $accessToken->expire_ts = $ret['expire_ts'];
-                } else {
-                    throw new Exception('There was error when fetch AccessToken. Error:' . var_export($stm->errorInfo()));
+                if ($gotRows > 0){
+                    $ret = $stm->fetch(PDO::FETCH_ASSOC);
+
+                    if ($ret) {
+                        $accessToken->id = $ret['id'];
+                        $accessToken->access_token = $ret['access_token'];
+                        $accessToken->create_ts = $ret['create_ts'];
+                        $accessToken->expire_ts = $ret['expire_ts'];
+                    } else {
+                        throw new Exception('There was error when fetch AccessToken. Error:' . var_export($stm->errorInfo()));
+                    }
                 }
+                
             } else {
                 throw new Exception('The $db is not instance of PDO when connecting to database.');
             }
