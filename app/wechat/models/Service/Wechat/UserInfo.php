@@ -134,8 +134,6 @@ class Service_Wechat_UserInfo
                         throw new Exception('There was error when fetch user open info.');
                     }
 
-                    $this->logger->info('User ID:' . $user_id);
-
                     $stm = $db->prepare('SELECT * from xyz_user_info where `user_id`=:user_id');
                     $stm->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                     $ret = $stm->execute();
