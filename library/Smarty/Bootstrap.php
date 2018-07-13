@@ -22,6 +22,22 @@ class Smarty_Bootstrap implements Yaf_View_Interface
         $this->smarty = new Smarty();
     }
 
+    /**
+     * Setting template files path
+     *
+     * @param string $path Template files path
+     */
+    public function setTemplatePath($path){
+        if(is_readable($path)){
+            $this->smarty->setTemplateDir($path);
+        }
+    }
+
+    /**
+     * Fetch template and display page
+     *
+     * @param string $tpl Template name
+     */
     public function display($tpl){
         echo $this->smarty->fetch($tpl);
     }
