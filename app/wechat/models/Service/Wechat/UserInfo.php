@@ -45,9 +45,10 @@ class Service_Wechat_UserInfo
                         $user_id = $result['user_id'];
                         $user_status = $result['status'];
 
-                        if($user_status === 1){
-                            $stm = $db->prepare('UPDATE xyz_user_info set `status`=0 where `user_id`=:user_id');
+                        if($user_status === Dao_UserState::DISABLE){
+                            $stm = $db->prepare('UPDATE xyz_user_info set `status`=:status where `user_id`=:user_id');
                             $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                            $stm->bindValue(':status', Dao_UserState::ENABLE, PDO::PARAM_INT);
                             $ret = $stm->execute();
 
                             if($ret === false) {
@@ -62,10 +63,11 @@ class Service_Wechat_UserInfo
                     /**
                      * 2. Create user info
                      */
-                    $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `icon`, `create_ts`) VALUE (:username, :nickname, :icon, :create_ts)');
+                    $stm = $db->prepare('INSERT INTO xyz_user_info (`username`, `nickname`, `icon`, `status`, `create_ts`) VALUE (:username, :nickname, :icon, :status, :create_ts)');
                     $stm->bindValue(':username', $userInfo->username, PDO::PARAM_STR);
                     $stm->bindValue(':nickname', $userInfo->nickname, PDO::PARAM_STR);
                     $stm->bindValue(':icon', $userInfo->icon, PDO::PARAM_STR);
+                    $stm->bindValue(':status', Dao_UserState::ENABLE, PDO::PARAM_INT);
                     $stm->bindValue(':create_ts', time(), PDO::PARAM_INT);
                     $ret = $stm->execute();
 
