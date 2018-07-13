@@ -9,6 +9,6 @@
  **************************************************/
 class Dao_UserState
 {
-    const ENABLE = 0;
-    const DISABLE = 1;
+    const ENABLE = 1;
+    const DISABLE = 0;
 }
