@@ -128,7 +128,7 @@ class Wechat
             $this->logger->warning('Current user state is:' . $user_info->status);
         }
 
-        return sprintf($this->responseMsgTempletes['text'], $openid, $request_msg->ToUserName, time(), $msg);
+        return sprintf($this->responseMsgTemplates['text'], $openid, $request_msg->ToUserName, time(), $msg);
     }
 
     public function getUserInfoByOpenId($openId){
@@ -167,7 +167,7 @@ class Wechat
         return $userInfo;
     }
 
-    private $responseMsgTempletes = [
+    private $responseMsgTemplates = [
         'text' => '<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
